@@ -1,0 +1,66 @@
+import random
+import copy
+def GenerateRandomList(number, size):
+	temp = []
+	random_legth = random.randint(0, size)
+	current_length = 0
+	while current_length < random_legth:
+		temp.append(random.randint(1, number))
+		current_length += 1
+	return temp
+    
+def SmallSum(arr):
+    if arr is None or len(arr) < 2:
+        return 0
+    return sortprocess(arr, 0, len(arr) - 1)
+
+def sortprocess(arr, L, R):
+    if L == R:
+        return 0
+    mid = (L + R) // 2
+    return  sortprocess(arr, L, mid) + sortprocess(arr, mid + 1, R) + merge(arr, L, mid, R)
+
+def merge(arr, L, mid, R):
+    help_list = []
+    p1 = L
+    p2 = mid + 1
+    res = 0
+    while p1 <= mid and p2 <= R:
+        if arr[p1] < arr[p2]:
+            res += arr[p1] * (R - p2 + 1)
+            help_list.append(arr[p1])
+            p1 += 1
+        else:
+            help_list.append(arr[p2])
+            p2 += 1
+
+    while p1 <= mid:
+        help_list.append(arr[p1])
+        p1 += 1
+
+    while p2 <= R:
+        help_list.append(arr[p2])
+        p2 += 1
+
+    for i in range(len(help_list)):
+        arr[L + i] = help_list[i]
+
+    return res
+
+#对数器
+def standard_SmallSum(arr):
+	ans = 0
+	for i in range(1, len(arr)):
+		for j in range(0, i):
+			if arr[j] < arr[i]:
+				ans += arr[j]
+	return ans
+
+for i in range(100):
+	l = GenerateRandomList(100,100)
+	temp = copy.copy(l)
+	standard_l = standard_SmallSum(l)
+	res = SmallSum(l)
+	if res != standard_l:
+		print(temp)
+print('Done!')
