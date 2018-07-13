@@ -1,0 +1,41 @@
+import random
+import copy
+def GenerateRandomList(number, size):
+    temp = []
+    random_legth = random.randint(0, size)
+    current_length = 0
+    while current_length < random_legth:
+        temp.append(random.randint(1, number))
+        current_length += 1
+    return temp
+    
+def QuickSort(arr, L, R):
+    if L < R:
+        # use the last element as the anchor
+        p = Partition(arr, L, R, arr[R])
+        QuickSort(arr, L, p[0])
+        QuickSort(arr, p[1], R)
+        
+def Partition(arr, L, R, anchor):
+    less = L - 1
+    more = R + 1
+    cur = L
+    while cur < more:
+        if arr[cur] < anchor:
+            less += 1
+            arr[cur], arr[less] = arr[less], arr[cur]
+            cur += 1
+        elif arr[cur] == anchor:
+            cur += 1
+        else:
+            more -= 1
+            arr[cur], arr[more] = arr[more], arr[cur]
+    return (less, more)
+
+for i in range(100):
+    l = GenerateRandomList(200,100)
+    ls=  sorted(l)
+    QuickSort(l, 0 , len(l) - 1)
+    if (ls != l):
+        print('Wrong!')
+print('Done!')
