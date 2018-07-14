@@ -1,0 +1,48 @@
+import random
+def GenerateRandomList(number, size):
+	temp = []
+	random_legth = random.randint(0, size)
+	current_length = 0
+	while current_length < random_legth:
+		temp.append(random.randint(1, number))
+		current_length += 1
+	return temp
+    
+def HeapSort(arr):
+    if arr is None or len(arr) < 2:
+        return
+
+    for i in range(len(arr)):
+        HeapInsert(arr, i)
+
+    heapSize = len(arr)
+
+    while heapSize > 0:
+        arr[0], arr[heapSize - 1] = arr[heapSize - 1], arr[0]
+        heapSize -= 1
+        HeapiFy(arr, 0, heapSize)
+
+def HeapInsert(arr, index):
+    while index and arr[index] > arr[(index - 1) // 2]:
+        arr[index], arr[(index - 1) // 2] =  arr[(index - 1) // 2], arr[index]
+        index =  (index - 1) // 2
+    
+def HeapiFy(arr, index, heapSize):
+    left = 2 * index + 1
+    while left < heapSize:
+        if left + 1 < heapSize and arr[left] < arr[left + 1]:
+            largest = left + 1
+        else:
+            largest = left
+        if arr[index] > arr[largest]:
+            break
+        arr[index], arr[largest] = arr[largest], arr[index]
+        index = largest
+        left = 2 * index + 1
+
+for _ in range(20):
+    l = GenerateRandomList(20000, 10)
+    stand_list = sorted(l)
+    HeapSort(l)
+    print(l == stand_list)
+
