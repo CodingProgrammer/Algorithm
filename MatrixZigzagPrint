@@ -1,0 +1,37 @@
+def DiagnalPrint(arr, up_r, up_c, down_r, down_c, flag):
+	if flag:
+		cur_r = up_r
+		cur_c = up_c
+		while cur_r <= down_r:
+			print(arr[cur_r][cur_c], end = ' ')
+			cur_r += 1
+			cur_c -= 1
+	else:
+		cur_r = down_r
+		cur_c = down_c
+		while cur_r >= up_r:
+			print(arr[cur_r][cur_c], end = ' ')
+			cur_r -= 1
+			cur_c += 1
+def MatrixZigzagPrint(l):
+	up_r, up_c, down_r, down_c = 0, 0, 0, 0
+	flag = 0
+	length_r = len(l)
+	length_c = len(l[0])
+	while up_r != length_r:
+		DiagnalPrint(l, up_r, up_c, down_r, down_c, flag % 2)
+		flag += 1
+		if up_c != length_c - 1:
+			up_c += 1
+		else:
+			up_r += 1
+		
+		if down_r != length_r - 1:
+			down_r += 1
+		else:
+			down_c += 1
+	print('')
+
+l = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+MatrixZigzagPrint(l)
