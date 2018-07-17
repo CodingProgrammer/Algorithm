@@ -1,0 +1,99 @@
+class TreeNode():
+    def __init__(self, elem = None, lchild = None, rchild = None):
+        self.elem = elem
+        self.lchild = lchild
+        self.rchild = rchild
+
+class Tree():
+    def __init__(self):
+        self.root = None
+
+    def add(self, elem):
+        new_node = TreeNode(elem)
+        if self.root is None:
+            self.root = new_node
+        else:
+            myQueue = [self.root]
+            while True:
+                cur = myQueue.pop(0)
+                if cur.lchild is None:
+                    cur.lchild = new_node
+                    break
+                elif cur.rchild is None:
+                    cur.rchild = new_node
+                    break
+                else:
+                    myQueue.append(cur.lchild)
+                    myQueue.append(cur.rchild)
+
+
+def preOrderRecur(root):
+    if root is None:
+        return 
+    myStack = [root]
+    while myStack:
+        cur = myStack.pop()
+        print(cur.elem, end = ' ')
+        if cur.rchild:
+            myStack.append(cur.rchild)
+        if cur.lchild:
+            myStack.append(cur.lchild)
+    print('')
+
+def preOrder(root):
+    if root:
+        print(root.elem, end = ' ')
+        preOrder(root.lchild)
+        preOrder(root.rchild)
+    
+def inOrderRecur(root):
+    if root:
+        cur = root
+        myStack = []
+        while myStack or cur:
+            if cur:
+                myStack.append(cur)
+                cur = cur.lchild
+            else:
+                cur = myStack.pop()
+                print(cur.elem, end = ' ')
+                cur = cur.rchild
+        print('')
+
+def inOrder(root):
+    if root:
+        inOrder(root.lchild)
+        print(root.elem, end = ' ')
+        inOrder(root.rchild)
+
+def posOrderRecur(root):
+    if root:
+        myStack = [root]
+        resStack = []
+        while myStack:
+            cur = myStack.pop()
+            resStack.append(cur.elem)
+            if cur.lchild:
+                myStack.append(cur.lchild)
+            if cur.rchild:
+                myStack.append(cur.rchild)
+        for each in resStack[::-1]:
+            print(each, end = ' ')
+        print('') 
+
+
+def posOrder(root):
+    if root:
+        posOrder(root.lchild)
+        posOrder(root.rchild)
+        print(root.elem, end = ' ')
+
+
+
+t1 = Tree()
+for i in range(1, 8):
+    t1.add(i)
+
+posOrder(t1.root)
+print('')
+posOrderRecur(t1.root)
