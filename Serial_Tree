@@ -1,0 +1,127 @@
+# -*-coding: utf-8-*-
+import Queue
+class TreeNode():
+    def __init__(self, elem = None, lchild = None, rchild = None):
+        self.elem = elem
+        self.lchild = lchild
+        self.rchild = rchild
+
+class Tree():
+    def __init__(self):
+        self.root = None
+
+    def add(self, elem):
+        new_node = TreeNode(elem)
+        if self.root is None:
+            self.root = new_node
+        else:
+            myQueue = [self.root]
+            while True:
+                cur = myQueue.pop(0)
+                if cur.lchild is None:
+                    cur.lchild = new_node
+                    break
+                elif cur.rchild is None:
+                    cur.rchild = new_node
+                    break
+                else:
+                    myQueue.append(cur.lchild)
+                    myQueue.append(cur.rchild)
+
+#序列化
+def serialByPreOrder(root):
+    if root is None:
+        return '#!'
+    res = str(root.elem) + '!'
+    res += serialByPreOrder(root.lchild)
+    res += serialByPreOrder(root.rchild)
+    return res
+
+def serialByInOrder(root):
+    if root is None:
+        return '#!'
+    res = ''
+    res += serialByInOrder(root.lchild)
+    res += str(root.elem) + '!'
+    res += serialByInOrder(root.rchild)
+    return res
+
+def serialByPosOrder(root):
+    if root is None:
+        return '#!'
+    res = ''
+    res += serialByPosOrder(root.lchild)
+    res += serialByPosOrder(root.rchild)
+    res += str(root.elem) + '!'
+    return res
+
+def serialByLevel(root):
+    if root is None:
+        return '#!'
+    res = str(root.elem) + '!'
+    q = [root]
+    while q:
+        root = q.pop(0)
+        if root.lchild:
+            res += str(root.lchild.elem) + '!'
+            q.append(root.lchild)
+        else:
+            res += '#!'
+        if root.rchild:
+            res += str(root.rchild.elem) + '!'
+            q.append(root.rchild)
+        else:
+            res += '#!'
+    return res
+
+#反序列化
+def reconByPreString(s):
+    values = s.split('!')
+    return reconPreOrder(values)
+
+def reconPreOrder(q):
+    value = q.pop(0)
+    if value == '#':
+        return None
+    root = TreeNode(value)
+    root.lchild = reconPreOrder(q)
+    root.rchild = reconPreOrder(q)
+    return root
+    
+def reconByLevelString(s):
+    values = s.split('!')
+    index = 0
+    root = generateNodeByString(values[index])
+    index += 1
+    q = []
+    if root:
+        q.append(root)
+    node = None
+    while q:
+        node = q.pop(0)
+        node.lchild = generateNodeByString(values[index])
+        index += 1
+        node.rchild = generateNodeByString(values[index])
+        index += 1
+        if node.lchild:
+            q.append(node.lchild)
+        if node.rchild:
+            q.append(node.rchild)
+    return root
+
+def generateNodeByString(c):
+    if c == '#':
+        return None
+    return TreeNode(int(c))
+
+
+            
+        
+t1 = Tree()
+for i in range(1, 8):
+    t1.add(i)
+
+print(serialByPreOrder(t1.root))
+t2 = Tree()
+s = '1!2!4!#!#!5!#!#!3!6!#!#!7!#!#!'
+print(serialByPreOrder(reconByPreString(s)))
