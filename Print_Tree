@@ -10,7 +10,7 @@ class Tree():
     def __init__(self):
         self.root = None
 
-    def add(self, elem = None):
+    def add(self, elem = 'None'):
         new_node = TreeNode(elem)
         if self.root is None:
             self.root = new_node
@@ -18,15 +18,16 @@ class Tree():
             myQueue = [self.root]
             while True:
                 cur = myQueue.pop(0)
-                if cur.lchild is None:
-                    cur.lchild = new_node
-                    break
-                elif cur.rchild is None:
-                    cur.rchild = new_node
-                    break
-                else:
-                    myQueue.append(cur.lchild)
-                    myQueue.append(cur.rchild)
+                if cur.elem != 'None':
+                    if cur.lchild is None:
+                        cur.lchild = new_node
+                        break
+                    elif cur.rchild is None:
+                        cur.rchild = new_node
+                        break
+                    else:
+                        myQueue.append(cur.lchild)
+                        myQueue.append(cur.rchild)
 
 
 def printTree(root):
@@ -39,7 +40,7 @@ def printInOrder(root, height, s, length):
     printInOrder(root.rchild, height + 1, 'v', length)
     val = s + str(root.elem) + s
     lenM = len(val)
-    lenL = (length - lenM) / 2
+    lenL = (length - lenM) // 2
     lenR = length - lenM -lenL
     val = getSpace(lenL) + val + getSpace(lenR)
     print(getSpace(height * length) +val)
