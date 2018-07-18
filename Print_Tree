@@ -1,0 +1,60 @@
+# -*-coding: utf-8-*-
+import Queue
+class TreeNode():
+    def __init__(self, elem = None, lchild = None, rchild = None):
+        self.elem = elem
+        self.lchild = lchild
+        self.rchild = rchild
+
+class Tree():
+    def __init__(self):
+        self.root = None
+
+    def add(self, elem = None):
+        new_node = TreeNode(elem)
+        if self.root is None:
+            self.root = new_node
+        else:
+            myQueue = [self.root]
+            while True:
+                cur = myQueue.pop(0)
+                if cur.lchild is None:
+                    cur.lchild = new_node
+                    break
+                elif cur.rchild is None:
+                    cur.rchild = new_node
+                    break
+                else:
+                    myQueue.append(cur.lchild)
+                    myQueue.append(cur.rchild)
+
+
+def printTree(root):
+    print("Binary Tree:")
+    printInOrder(root, 0, 'H', 17)
+    
+def printInOrder(root, height, s, length):
+    if root is None:
+        return
+    printInOrder(root.rchild, height + 1, 'v', length)
+    val = s + str(root.elem) + s
+    lenM = len(val)
+    lenL = (length - lenM) / 2
+    lenR = length - lenM -lenL
+    val = getSpace(lenL) + val + getSpace(lenR)
+    print(getSpace(height * length) +val)
+    printInOrder(root.lchild, height + 1, '^', length)
+
+def getSpace(num):
+    return ' ' * num
+    
+        
+t1 = Tree()
+for i in range(1, 8):
+    if i % 2:
+        t1.add(i)
+    else:
+        t1.add()
+
+
+printTree(t1.root)
