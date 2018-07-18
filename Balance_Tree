@@ -49,9 +49,6 @@ def printInOrder(root, height, s, length):
 def getSpace(num):
     return ' ' * num
 
-def ReturnData(flag, level):
-    return (flag, level)
-
 def isBalance(root):
     if root is None:
         return (True, 0)
