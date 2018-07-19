@@ -1,0 +1,24 @@
+def islandCount(l):
+    res = 0
+    r = len(l)
+    c = len(l[0])
+    for i in range(r):
+        for j in range(c):
+            if l[i][j] == 1:
+                res += 1
+                infect(l, i, j, r - 1, c - 1)
+    return res 
+
+def infect(arr, i, j, r, c):
+    if i < 0 or i > r or j < 0 or j > c or arr[i][j] != 1:
+        return 
+    arr[i][j] = 2
+    infect(arr, i - 1, j, r, c)
+    infect(arr, i + 1, j, r, c)
+    infect(arr, i, j - 1, r, c)
+    infect(arr, i, j + 1, r, c)
+
+
+
+l = [[0,0,1,0,1,0],[1,1,1,0,1,0],[1,0,0,1,0,0],[0,1,0,0,1,0]]
+print(islandCount(l))
