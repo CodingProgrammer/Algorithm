@@ -68,7 +68,7 @@ def  isBST(root):
         return True
     else:
         print('The root is None!')
-def    
+   
 t1 = Tree()
 l = [5, 10, 8]
 for each in l:
