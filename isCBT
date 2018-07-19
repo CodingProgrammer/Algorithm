@@ -1,0 +1,81 @@
+# -*-coding: utf-8-*-
+import sys
+import queue
+class TreeNode():
+    def __init__(self, elem = None, lchild = None, rchild = None):
+        self.elem = elem
+        self.lchild = lchild
+        self.rchild = rchild
+
+class Tree():
+    def __init__(self):
+        self.root = None
+
+    def add(self, elem = None):
+        new_node = TreeNode(elem)
+        if self.root is None:
+            self.root = new_node
+        else:
+            myQueue = [self.root]
+            while True:
+                cur = myQueue.pop(0)
+                if cur and cur.elem:
+                    if cur.lchild is None:
+                        cur.lchild = new_node
+                        break
+                    elif cur.rchild is None:
+                        cur.rchild = new_node
+                        break
+                    else:
+                        myQueue.append(cur.lchild)
+                        myQueue.append(cur.rchild)
+
+
+def printTree(root):
+    print("Binary Tree:")
+    printInOrder(root, 0, 'H', 17)
+    
+def printInOrder(root, height, s, length):
+    if root is None:
+        return
+    printInOrder(root.rchild, height + 1, 'v', length)
+    val = s + str(root.elem) + s
+    lenM = len(val)
+    lenL = (length - lenM) // 2
+    lenR = length - lenM -lenL
+    val = getSpace(lenL) + val + getSpace(lenR)
+    print(getSpace(height * length) +val)
+    printInOrder(root.lchild, height + 1, '^', length)
+
+def getSpace(num):
+    return ' ' * num
+
+def isCBT(root):
+    if root is None:
+        return True
+    leaf = False
+    l = None
+    r = None
+    q = queue.Queue()
+    q.put(root)
+    while not q.empty():
+        root = q.get()
+        l = root.lchild
+        r = root.rchild
+        if (leaf and (l or r)) or ((l and not l.elem) and r):
+            return False
+        if l and l.elem:
+            q.put(l)
+        if r and r.elem:
+            q.put(r)
+        else:
+            leaf = True
+    return True
+
+t1 = Tree()
+l = [2, 5, 8, 6, None, 7, 9]
+for each in l:
+    t1.add(each)
+printTree(t1.root)
+
+print(isCBT(t1.root))
