@@ -1,0 +1,5 @@
+def yanghui():
+    pre = [1]
+    while True:
+        yield pre
+        pre = [1] + [pre[i]+pre[i+1] for i in range(len(pre)-1)] + [1]
