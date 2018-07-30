@@ -1,0 +1,36 @@
+def KMP(source, target):
+    length_source, length_target = len(source), len(target)
+    if length_source < 1 or length_target < 1:
+        return -1
+    p1, p2 = 0, 0
+    next_arr = getNextArray(target)
+    while p1 < length_source and p2 < length_target:
+        if source[p1] == target[p2]:
+            p1 += 1
+            p2 += 1
+        elif next_arr[p2] == -1:
+            p1 += 1
+        else:
+            p2 = next_arr[p2]
+    return p1-p2 if p2 == length_target else -1
+
+def getNextArray(arr):
+    next_arr = [0 for _ in range(len(arr))]
+    next_arr[0], next_arr[1] = -1, 0
+    i = 2
+    cn = 0
+    while i < len(next_arr):
+        if arr[i-1] == arr[cn]:
+            cn += 1
+            next_arr[i] = cn
+            i += 1
+        elif cn > 0:
+            cn = next_arr[cn]
+        else:
+            i += 1
+    return next_arr
+if __name__ == '__main__':
+	s1 = 'BBC ABCDAB ABCDABCDABDE'
+	s2 = 'ABCDABD'
+
+	print(KMP(s1, s2))
