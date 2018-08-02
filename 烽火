@@ -1,0 +1,44 @@
+class Pair():
+    def __init__(self, value, times = 1):
+        self.value = value
+        self.times = times
+
+def nextIndex(size, curIndex):
+    return curIndex+1 if curIndex < size-1 else 0
+
+def interalSum(times):
+    return 0 if times == 1 else times * (times - 1) // 2
+
+def communications(arr):
+    size = len(arr)
+    value = max(arr)
+    res = 0
+    max_index = arr.index(value)
+    index = nextIndex(size, max_index)
+    singleSatck = [Pair(value)]
+    while index != max_index:
+        value = arr[index]
+        while singleSatck and value > singleSatck[-1].value:
+            p = singleSatck.pop()
+            res += interalSum(p.times) + 2 * p.times
+        if singleSatck and value == singleSatck[-1].value:
+            singleSatck[-1].times += 1
+        else:
+            singleSatck.append(Pair(value))
+        index = nextIndex(size, index)
+
+    while singleSatck:
+        p = singleSatck.pop()
+        if len(singleSatck) >= 2:
+            res += interalSum(p.times) + 2 * p.times
+        elif len(singleSatck) == 1:
+            if singleSatck[0].times >= 2:
+                res += interalSum(p.times) + 2 * p.times
+            else:
+                res += interalSum(p.times) + p.times
+        else:
+            res += interalSum(p.times)
+    return res
+
+l = [4, 4, 4, 3, 3, 5, 5]
+print(communications(l))
