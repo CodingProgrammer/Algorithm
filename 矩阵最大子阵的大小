@@ -1,0 +1,50 @@
+def maxRec(matrix):
+    if not matrix or len(matrix) == 0 or len(matrix[0]) == 0:
+        return 0
+    max_area = -1
+    temp = [0 for _ in range(len(matrix[0]))]
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            temp[j] = 0 if matrix[i][j] == 0 else temp[j]+1
+        max_area = max(max_area, maxRecFromBottom(temp))
+    return max_area
+
+
+
+def maxRecFromBottom(height):
+    if not height or len(height) == 0:
+        return 0
+    singleSatck = []
+    max_area = -1
+    for i in range(len(height)):
+        while singleSatck and (height[i] <= height[singleSatck[-1]]):
+            p = singleSatck.pop()
+            if singleSatck:
+                cur_left = singleSatck[-1]
+            else:
+                cur_left = -1
+            cur_area = (i - cur_left - 1) * height[p]
+            if cur_area > max_area:
+                max_area = cur_area
+        singleSatck.append(i)
+
+    while singleSatck:
+        p = singleSatck.pop()
+        if singleSatck:
+            cur_left = singleSatck[-1]
+        else:
+            cur_left = -1
+        cur_area = (len(height) - cur_left - 1) * height[p]
+        if cur_area > max_area:
+            max_area = cur_area
+    
+    return max_area
+            
+
+maxtrix = [
+    [1,0,1,1],
+    [1,1,1,1],
+    [1,1,1,0]
+
+]
+print(maxRec(maxtrix))
