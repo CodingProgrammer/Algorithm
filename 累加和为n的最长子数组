@@ -1,0 +1,16 @@
+def maxLength(l, n):
+    pre_sum = 0
+    table = {0:-1}
+    max_length = 0
+    for i in range(len(l)):
+        pre_sum += l[i]
+        if (pre_sum - target) in table.keys():
+            max_length = max(max_length, i - table[pre_sum - target])
+            table[pre_sum] = i
+        else:
+            table[pre_sum] = i
+    return max_length
+
+l = [7, 3, 2, 1, 1, 7, -6, -1, 7]
+target = 7
+print(maxLength(l, target)) 
