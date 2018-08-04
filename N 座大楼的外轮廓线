@@ -1,0 +1,32 @@
+buildings  = [[1, 4, 7],[2, 3, 3],[5, 8, 7], [6, 10, 5],[7, 11, 9]]
+info = []
+for each_building in buildings:
+    info.append([each_building[0],each_building[2], 1])
+    info.append([each_building[1],each_building[2], 0])
+info = (sorted(info, key = lambda x : (x[0], -x[2])))
+
+height = set([0])
+pos = [0 for _ in range(buildings[-1][1] + 1)]
+for i in range(len(info)):
+    if info[i][2]:
+        height.add(info[i][1])
+    else:
+        height.remove(info[i][1])
+    if i < len(info) - 1:
+        for j in range(info[i][0], info[i+1][0]):
+            pos[j] = max(height)
+    else:
+        pos[info[i][0]] = max(height)
+
+start = 0
+end = 0
+cur_height = 0
+res = []
+for i in range(1, buildings[-1][1] + 1):
+    if pos[i] != pos[i-1]:
+        if pos[i-1] != 0:
+            end = i
+            res.append([start,end,cur_height])
+        start = i
+        cur_height = pos[i]
+print(res)
