@@ -1,0 +1,20 @@
+import random
+def GenerateRandomList(number, size):
+    temp = []
+    random_legth = random.randint(0, size)
+    current_length = 0
+    while current_length < random_legth:
+        temp.append(random.randint(1, number))
+        current_length += 1
+    return temp
+
+l = GenerateRandomList(5, 10)
+print(l)
+cur_farest, next_farest = 0, 0
+step = 0
+for i in range(len(l)):
+    if cur_farest < i:
+        cur_farest = next_farest
+        step += 1
+    next_farest = max(next_farest, i+l[i])
+print(step)
