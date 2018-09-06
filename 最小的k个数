@@ -1,0 +1,32 @@
+#返回以随机选取的数partition之后的索引
+#arr为数组，start、end分别为数组第一个元素和最后一个元素的索引，povitIndex为数组中任意选中的数的索引
+def partition2(arr, start, end):
+    pivotIndex = random.randint(start, end)
+    arr[pivotIndex], arr[end] = arr[end], arr[pivotIndex]
+    storeIndex = start
+    #这个循环比一般的写法简洁高效，呵呵维基百科上看到的
+    for i in range(start, end):
+        if arr[i] <= arr[end]:
+            arr[i], arr[storeIndex] = arr[storeIndex], arr[i]
+            storeIndex += 1
+    arr[storeIndex], arr[end] = arr[end], arr[storeIndex]
+    return storeIndex
+
+def MinK(arr, k):
+    if arr is None or len(arr) < k or k <= 0:
+        return None
+    start = 0
+    end = len(arr) -1
+    index = partition2(arr, start, end)
+    while index != k - 1:
+        if index > k - 1:
+            end = index - 1
+            index = partition2(arr, start, end)
+        else:
+            start = index + 1
+            index = partition2(arr, start, end)
+    return arr[:k]
+
+l = [7, 3, 1, 5, 6, 2]
+l1 = [7, 3 ,1, 1, 1, 2]
+print(MinK(l1, 3))
