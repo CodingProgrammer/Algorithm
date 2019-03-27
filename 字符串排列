@@ -1,0 +1,14 @@
+def permutation(target, start, end):
+    if start == end:
+        for each in target:
+            print(each, end='')
+        print(end='\n')
+    
+    for i in range(start, end+1):
+        target[start], target[i] = target[i], target[start]
+        permutation(target, start+1, end)
+        target[start], target[i] = target[i], target[start]
+        
+
+a=[1,2,3,4]
+permutation(a,0,len(a)-1)
