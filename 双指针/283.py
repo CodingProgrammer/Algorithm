@@ -23,6 +23,17 @@ def GenerateRandomList(number, size):
 
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
+        fast = 0
+        slow = 0
+        while fast < len(nums):
+            if nums[fast] == 0:
+                fast += 1
+            else:
+                nums[fast], nums[slow] = nums[slow], nums[fast]
+                fast += 1
+                slow += 1
+                
+    def moveZeroes3(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
